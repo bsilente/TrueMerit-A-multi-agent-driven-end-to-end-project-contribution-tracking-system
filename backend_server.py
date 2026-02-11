@@ -23,8 +23,8 @@ llm_config = {
     "config_list": [
         {
             "model": "deepseek-chat",  # DeepSeek V3/R1
-            "api_key": DEEPSEEK_API_KEY,
-            "base_url": "https://api.deepseek.com" # DeepSeek 是 OpenAI 兼容的
+            "api_key": "sk-46cb59143bb942228d760df56f841577",
+            "base_url": "https://api.deepseek.com" 
         }
     ],
     "temperature": 0.1,  # 降低温度以获得更稳定的评估结果
