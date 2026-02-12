@@ -16,18 +16,16 @@ from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
 # ==========================================
 
 # 深度求索 (DeepSeek) API 配置
-# 请确保环境变量 DEEPSEEK_API_KEY 已设置
-DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "sk-YOUR_DEEPSEEK_KEY_HERE")
 
 llm_config = {
     "config_list": [
         {
             "model": "deepseek-chat",  # DeepSeek V3/R1
-            "api_key": DEEPSEEK_API_KEY,
+            "api_key": "sk-46cb59143bb942228d760df56f841577",
             "base_url": "https://api.deepseek.com" # DeepSeek 是 OpenAI 兼容的
         }
     ],
-    "temperature": 0.1,  # 降低温度以获得更稳定的评估结果
+    "temperature": 0.0,  # 降低温度以获得更稳定的评估结果
     "timeout": 300,      # 多智能体思考需要时间
     "cache_seed": None   # 禁用缓存以确保每次都是实时思考
 }
