@@ -13,7 +13,7 @@ from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
 # 1. 核心配置 (Configuration)
 # ==========================================
 
-DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "sk-YOUR_DEEPSEEK_KEY_HERE")
+DEEPSEEK_API_KEY = "sk-46cb59143bb942228d760df56f841577"
 
 llm_config = {
     "config_list": [

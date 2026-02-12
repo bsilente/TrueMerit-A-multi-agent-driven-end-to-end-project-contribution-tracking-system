@@ -16,6 +16,7 @@ interface Member {
   type: ContributionType;
   description: string;
   content: string;
+  fileName?: string; // 新增：用于记录该成员上传的文件名
 }
 
 interface ResultData {
@@ -75,6 +76,29 @@ export default function ContributionApp() {
     };
     reader.onerror = () => setError("无法读取文件，请上传文本格式文件 (如 .py, .js, .txt)");
     reader.readAsText(file);
+  };
+
+  // 新增：处理单个成员的文件上传
+  const handleMemberFileUpload = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // 记录文件名
+    updateMember(id, 'fileName', file.name);
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result;
+      if (typeof text === 'string') {
+        // 将文件内容填充到该成员的 content 中
+        updateMember(id, 'content', text);
+      }
+    };
+    reader.onerror = () => setError(`无法读取成员文件: ${file.name}`);
+    reader.readAsText(file);
+    
+    // 清空 input，允许用户重复上传同名文件
+    e.target.value = '';
   };
 
   const addMember = () => {
@@ -291,11 +315,34 @@ export default function ContributionApp() {
                     </div>
                     
                     <div>
-                      <label className="block text-xs text-slate-500 mb-1">具体内容/代码片段 (用于 AI 查证)</label>
+                      <div className="flex justify-between items-center mb-1">
+                        <label className="block text-xs text-slate-500">具体内容/代码片段 (用于 AI 查证)</label>
+                        <div className="flex items-center gap-2">
+                          {member.fileName && (
+                            <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 truncate max-w-[150px]">
+                              已导入: {member.fileName}
+                            </span>
+                          )}
+                          <input 
+                            type="file" 
+                            id={`file-${member.id}`} 
+                            className="hidden"
+                            accept=".txt,.js,.py,.md,.json,.html,.css,text/*"
+                            onChange={(e) => handleMemberFileUpload(member.id, e)}
+                          />
+                          <label 
+                            htmlFor={`file-${member.id}`} 
+                            className="cursor-pointer text-xs flex items-center gap-1 text-indigo-400 hover:text-indigo-300 transition-colors bg-indigo-500/10 hover:bg-indigo-500/20 px-2 py-1 rounded"
+                          >
+                            <Upload className="w-3 h-3" />
+                            导入文件
+                          </label>
+                        </div>
+                      </div>
                       <textarea 
                         value={member.content} onChange={e => updateMember(member.id, 'content', e.target.value)}
                         className="w-full h-24 bg-slate-900 border border-slate-800 rounded px-3 py-2 text-sm font-mono text-slate-400 focus:border-purple-500 outline-none resize-none"
-                        placeholder="粘贴此人完成的具体内容，AI 将去最终项目中寻找这部分内容并评估其占比..."
+                        placeholder="粘贴此人完成的具体内容，或点击右上角「导入文件」自动提取内容..."
                       />
                     </div>
                   </div>
