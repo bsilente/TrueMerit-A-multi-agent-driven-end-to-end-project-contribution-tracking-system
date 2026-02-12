@@ -9,24 +9,8 @@ from pydantic import BaseModel, Field
 import autogen
 from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
 
-# ==========================================
-# 1. 核心配置 (Configuration)
-# ==========================================
-
-DEEPSEEK_API_KEY = "sk-46cb59143bb942228d760df56f841577"
-
-llm_config = {
-    "config_list": [
-        {
-            "model": "deepseek-chat",
-            "api_key": DEEPSEEK_API_KEY,
-            "base_url": "https://api.deepseek.com"
-        }
-    ],
-    "temperature": 0.1,  # 极低温度，保证评分的严谨性和确定性
-    "timeout": 600,      # 多人评估阅读量极大，增加超时时间
-    "cache_seed": None
-}
+# 引入独立配置文件中的 LLM 配置
+from config import LLM_CONFIG as llm_config
 
 # ==========================================
 # 2. 数据模型 (Data Models)
