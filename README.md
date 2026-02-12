@@ -161,17 +161,8 @@ export const API_CONFIG = {
 
 ---
 
-
-## 📄 许可证 (License)
-
-本项目采用 [MIT License](https://www.google.com/search?q=./LICENSE) 开源协议。
-
----
-
 <div align="center">
 <i>If you find this project useful, please consider giving it a ⭐️!</i>
 </div>
 
-```
 
-```
